@@ -1,0 +1,57 @@
+.button {
+    position: absolute;
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.button7On {top: 20px; left: 650px;} /* Red */
+.button7Off {background-color: #f44336; top: 20px; left: 780px;} /* Red */
+.button11On {top: 70px; left: 650px;} /* Red */
+.button11Off {background-color: #f44336; top: 70px; left: 780px;} /* Red */
+
+.Board {
+position: relative;
+background-color: #FFFFFF;
+top: 0;
+left: 0;
+z-index: 0;
+}
+
+.GPIO7 {
+
+position: absolute;
+top: 150px;
+left: 449px;
+background-color: #FFFFFF;
+background: transparent;
+z-index: 2;
+opacity: .6
+}
+
+.GPIO11 {
+
+position: absolute;
+top: 206px;
+left: 449px;
+background-color: #FFFFFF;
+background: transparent;
+z-index: 2;
+opacity: .6
+}
+
+.BorderMargin {
+
+   margin: 10px;
+   padding: 10px;
+   max-width: 300px;
+   height: 300px;
+   border: 1px solid black;
+}
