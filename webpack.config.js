@@ -1,7 +1,8 @@
+/*jshint esversion: 6 */
 const webpack = require('webpack');
 
 module.exports = {
-  entry: './src/client/index.js',
+  entry: './src/client/index.jsx',
   module: {
     rules: [
       {
@@ -13,7 +14,7 @@ module.exports = {
       test: /\.(jpg|png|svg)$/,
       loader: 'file-loader',
       options: {
-        name: '[path][name].[hash].[ext]',
+        name: '[path][name].[hash].[ext]'
       },
      },
      {
