@@ -11,40 +11,95 @@ const axios = require('axios');
 const SERVER_IP = '192.168.178.200';
 const server_URL = 'http://' + SERVER_IP + ':9090';
 
+var gpio4;
+var gpio17;
+
 const imagesPath = {
   red: redicon,
   green: greenicon
 };
 
-var gpio7 = false;
-var gpio7_image = 'red';
-var gpio11 = false;
-var gpio11_image = 'red';
 
 function getImage(gpio) {
-  return (gpio ? "red" : "green");
+  return (gpio ? "green" : "red");
 }
+
+var gpio4_image;
+var gpio17_image;
+
+console.log(gpio4_image);
 
 class App extends React.Component {
   state = {
     open: true
   }
 
-toggleGPIO7 = () => {
-    console.log("gpio7");
-    gpio7 = !gpio7;
-    gpio7_image = getImage(gpio7);
-    console.log("Image: "+gpio7_image);
-    gpio7 ?  axios.post(server_URL+'/api/gpio7/on', {}) : axios.post(server_URL+'/api/gpio7/off', {})
+componentDidMount() {
+     this.getGPIO4();
+     this.getGPIO17();
+     this.interval = setInterval(() => {
+       this.getGPIO4();
+       this.getGPIO17();
+     }, 5000);
+   }
+
+  getGPIO4 = () => {
+    var self = this;
+    axios.get(server_URL+'/api/gpio4/state')
+    .then(function (response) {
+      gpio4 = (response.data == 1);
+      console.log(gpio4);
+      gpio4_image=getImage(gpio4);
+      self.setState(state => ({ open: state.open}));
+      return
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+    })
+    .then(function () {
+      // always executed
+    });
+  }
+
+  getGPIO17 = () => {
+    var self = this;
+    axios.get(server_URL+'/api/gpio17/state')
+    .then(function (response) {
+      gpio17 = (response.data == 1);
+      console.log(gpio4);
+      gpio17_image=getImage(gpio17);
+      self.setState(state => ({ open: state.open}));
+      return
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+    })
+    .then(function () {
+      // always executed
+    });
+  }
+
+componentWillUnmount() {
+   clearInterval(this.interval);
+ }
+
+toggleGPIO4 = () => {
+    console.log("gpio4");
+    gpio4 = !gpio4;
+    gpio4_image = getImage(gpio4);
+    console.log("Image: "+gpio4_image);
+    gpio4 ?  axios.post(server_URL+'/api/gpio4/on', {}) : axios.post(server_URL+'/api/gpio4/off', {})
     this.setState(state => ({ open: !state.open }))
   }
 
-  toggleGPIO11 = () => {
-    console.log("gpio11");
-    gpio11 = !gpio11;
-    gpio11_image = getImage(gpio11);
-    console.log("Image: "+gpio7_image);
-    gpio11 ?  axios.post(server_URL+'/api/gpio11/on', {}) : axios.post(server_URL+'/api/gpio11/off', {})
+toggleGPIO17 = () => {
+    console.log("gpio17");
+    gpio17 = !gpio17;
+    gpio17_image = getImage(gpio17);
+    console.log("Image: "+gpio17_image);
+    gpio17 ?  axios.post(server_URL+'/api/gpio17/on', {}) : axios.post(server_URL+'/api/gpio17/off', {})
     this.setState(state => ({ open: !state.open }))
     }
 
@@ -52,8 +107,8 @@ toggleGPIO7 = () => {
 render() {
   return (
     <div className={styles.Board}>
-      <img src={imagesPath[gpio7_image]} onClick={this.toggleGPIO7} className={styles.GPIO7}/>
-      <img src={imagesPath[gpio11_image]} onClick={this.toggleGPIO11} className={styles.GPIO11}/>
+      <img src={imagesPath[gpio4_image]} onClick={this.toggleGPIO4} className={styles.GPIO4}/>
+      <img src={imagesPath[gpio17_image]} onClick={this.toggleGPIO17} className={styles.GPIO17}/>
       <img src={rpi}/>
     </div>
   );
