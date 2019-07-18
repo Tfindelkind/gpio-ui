@@ -66,44 +66,6 @@ class App extends React.Component {
 
   }
 
-  getGPIO4 = () => {
-    var self = this;
-    axios.get(server_URL+'/api/gpio4/state')
-    .then(function (response) {
-      gpio4 = (response.data == 1);
-      console.log(gpio4);
-      gpio4_image=getImage(gpio4);
-      self.setState(state => ({ open: state.open}));
-      return
-    })
-    .catch(function (error) {
-      // handle error
-      console.log(error);
-    })
-    .then(function () {
-      // always executed
-    });
-  }
-
-  getGPIO17 = () => {
-    var self = this;
-    axios.get(server_URL+'/api/gpio17/state')
-    .then(function (response) {
-      gpio17 = (response.data == 1);
-      console.log(gpio4);
-      gpio17_image=getImage(gpio17);
-      self.setState(state => ({ open: state.open}));
-      return
-    })
-    .catch(function (error) {
-      // handle error
-      console.log(error);
-    })
-    .then(function () {
-      // always executed
-    });
-  }
-
 componentWillUnmount() {
    clearInterval(this.interval);
  }
