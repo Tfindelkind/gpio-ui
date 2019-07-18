@@ -14,6 +14,7 @@ const server_URL = 'http://' + SERVER_IP + ':9090';
 var gpio4;
 var gpio17;
 
+<<<<<<< HEAD
 axios.get(server_URL+'/api/gpio4/state')
 .then(function (response) {
   gpio4 = (response.data == 1);
@@ -45,14 +46,28 @@ axios.get(server_URL+'/api/gpio17/state')
 var gpio4_image;
 var gpio17_image;
 
+=======
+>>>>>>> 9da5965e1a19810128c5f26ba8cc0e8f22ae338b
 const imagesPath = {
   red: redicon,
   green: greenicon
 };
 
+<<<<<<< HEAD
 function getImage(gpio) {
   return (gpio ? "green" : "red");
 };
+
+console.log(gpio4_image);
+=======
+
+function getImage(gpio) {
+  return (gpio ? "green" : "red");
+}
+>>>>>>> 9da5965e1a19810128c5f26ba8cc0e8f22ae338b
+
+var gpio4_image;
+var gpio17_image;
 
 console.log(gpio4_image);
 
@@ -62,21 +77,69 @@ class App extends React.Component {
 
   }
 
+<<<<<<< HEAD
 /* getGPIO4 () {
+=======
+componentDidMount() {
+     this.getGPIO4();
+     this.getGPIO17();
+     this.interval = setInterval(() => {
+       this.getGPIO4();
+       this.getGPIO17();
+     }, 5000);
+   }
+
+  getGPIO4 = () => {
+    var self = this;
+>>>>>>> 9da5965e1a19810128c5f26ba8cc0e8f22ae338b
     axios.get(server_URL+'/api/gpio4/state')
     .then(function (response) {
       gpio4 = (response.data == 1);
       console.log(gpio4);
       gpio4_image=getImage(gpio4);
+<<<<<<< HEAD
       }
+=======
+      self.setState(state => ({ open: state.open}));
+      return
+    })
+>>>>>>> 9da5965e1a19810128c5f26ba8cc0e8f22ae338b
     .catch(function (error) {
       // handle error
       console.log(error);
     })
     .then(function () {
       // always executed
+<<<<<<< HEAD
     })
   } */
+=======
+    });
+  }
+
+  getGPIO17 = () => {
+    var self = this;
+    axios.get(server_URL+'/api/gpio17/state')
+    .then(function (response) {
+      gpio17 = (response.data == 1);
+      console.log(gpio4);
+      gpio17_image=getImage(gpio17);
+      self.setState(state => ({ open: state.open}));
+      return
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+    })
+    .then(function () {
+      // always executed
+    });
+  }
+
+componentWillUnmount() {
+   clearInterval(this.interval);
+ }
+>>>>>>> 9da5965e1a19810128c5f26ba8cc0e8f22ae338b
 
 toggleGPIO4 = () => {
     console.log("gpio4");
