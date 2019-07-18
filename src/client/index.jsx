@@ -14,76 +14,69 @@ const server_URL = 'http://' + SERVER_IP + ':9090';
 var gpio4;
 var gpio17;
 
+axios.get(server_URL+'/api/gpio4/state')
+.then(function (response) {
+  gpio4 = (response.data == 1);
+  console.log(gpio4);
+  gpio4_image=getImage(gpio4);
+})
+.catch(function (error) {
+  // handle error
+  console.log(error);
+})
+.then(function () {
+  // always executed
+});
+
+axios.get(server_URL+'/api/gpio17/state')
+.then(function (response) {
+  gpio17 = (response.data == 1);
+  console.log(gpio17);
+  gpio17_image=getImage(gpio17);
+})
+.catch(function (error) {
+  // handle error
+  console.log(error);
+})
+.then(function () {
+  // always executed
+});
+
+var gpio4_image;
+var gpio17_image;
+
 const imagesPath = {
   red: redicon,
   green: greenicon
 };
 
-
 function getImage(gpio) {
   return (gpio ? "green" : "red");
-}
-
-var gpio4_image;
-var gpio17_image;
+};
 
 console.log(gpio4_image);
 
 class App extends React.Component {
   state = {
-    open: true
+    open: true,
+
   }
 
-componentDidMount() {
-     this.getGPIO4();
-     this.getGPIO17();
-     this.interval = setInterval(() => {
-       this.getGPIO4();
-       this.getGPIO17();
-     }, 5000);
-   }
-
-  getGPIO4 = () => {
-    var self = this;
+/* getGPIO4 () {
     axios.get(server_URL+'/api/gpio4/state')
     .then(function (response) {
       gpio4 = (response.data == 1);
       console.log(gpio4);
       gpio4_image=getImage(gpio4);
-      self.setState(state => ({ open: state.open}));
-      return
-    })
+      }
     .catch(function (error) {
       // handle error
       console.log(error);
     })
     .then(function () {
       // always executed
-    });
-  }
-
-  getGPIO17 = () => {
-    var self = this;
-    axios.get(server_URL+'/api/gpio17/state')
-    .then(function (response) {
-      gpio17 = (response.data == 1);
-      console.log(gpio4);
-      gpio17_image=getImage(gpio17);
-      self.setState(state => ({ open: state.open}));
-      return
     })
-    .catch(function (error) {
-      // handle error
-      console.log(error);
-    })
-    .then(function () {
-      // always executed
-    });
-  }
-
-componentWillUnmount() {
-   clearInterval(this.interval);
- }
+  } */
 
 toggleGPIO4 = () => {
     console.log("gpio4");
@@ -114,8 +107,19 @@ render() {
   );
 }
 
+componentDidMount() {
+  this.myInterval = setInterval(() => {
+    gpio4_image=getImage(gpio4);
+    gpio17_image=getImage(gpio17);
+    console.log(gpio4);
+    this.setState(state => ({ open: !state.open }))
+  },5000)
+}
+
+componentWillUnmount() {
+  clearInterval(this.myInterval)
+}
+
 }
 
 ReactDOM.render(<App />, document.getElementById('app'));
-
-module.hot.accept();
